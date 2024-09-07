@@ -10,6 +10,6 @@ COPY --chmod=755 ./src/entrypoint.sh /opt/entrypoint.sh
 COPY --chmod=755 ./src/generate_user_config.sh /opt/generate_user_config.sh
 COPY --chmod=755 ./src/generate_network_config.sh /opt/generate_network_config.sh
 
-COPY ./src/template /templates/
+COPY ./template /templates/
 
 ENTRYPOINT [ "/opt/entrypoint.sh" ]
