@@ -30,6 +30,7 @@ users:
       - {{ operation_user_public_key }}
 
 {%- if generate_target == 'gateway' %}
+
 runcmd:
   - sed -i -e 's/^#PermitRootLogin prohibit-password/PermitRootLogin no/' /etc/ssh/sshd_config
   - sed -i -e 's/^#Port 22/Port 23022/' /etc/ssh/sshd_config

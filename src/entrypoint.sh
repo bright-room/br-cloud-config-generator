@@ -7,7 +7,7 @@ rm -fr ${GENERATE_BASE_DIR}/${SERVER_NAME}
 mkdir ${GENERATE_BASE_DIR}/${SERVER_NAME}
 
 # exec generator
-sh /opt/generate_user_config.sh
-if [[ ${SERVER_NAME} =~ ^br-gateway.+$ ]];then
-  sh /opt/generate_network_config.sh
+bash /opt/generate_user_config.sh
+if [[ ${SERVER_NAME} =~ ^.*gateway.+$ ]];then
+  bash /opt/generate_network_config.sh
 fi

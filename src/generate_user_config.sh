@@ -13,11 +13,9 @@ operation_user_password=$(openssl passwd -6 -salt=salt $(yq ".users.operation_us
 operation_user_public_key=$(yq ".users.operation_user.public_key" "${CREDENTIAL_FILE}")
 
 generate_target="gateway"
-if [[ ${SERVER_NAME} =~ ^br-node.+$ ]];then
+if [[ ${SERVER_NAME} =~ ^.*node.+$ ]];then
   generate_target="node"
 fi
-
-echo "${generate_target}"
 
 jinja2 ${TEMPLATE_FILE} \
       -D "hostname=${SERVER_NAME}" \
