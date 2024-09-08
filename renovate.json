@@ -19,12 +19,5 @@
   },
   "patch": {
     "stabilityDays": 1
-  },
-  "packageRules": [
-    {
-      "groupName": "github actions families",
-      "matchManagers": ["github-actions"],
-      "matchPackagePrefixes": ["actions"]
-    }
-  ]
+  }
 }
