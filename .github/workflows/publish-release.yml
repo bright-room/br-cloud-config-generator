@@ -36,6 +36,8 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           images: ${{ env.REGISTRY }}/${{ env.REPOSITORY_NAME }}
+          flavor: |
+            latest=true
           tags: ${{ steps.get_version.outputs.tag }}
 
       - name: Build and push Docker image
