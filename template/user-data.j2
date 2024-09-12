@@ -33,7 +33,6 @@ users:
 
 runcmd:
   - sed -i -e 's/^#PermitRootLogin prohibit-password/PermitRootLogin no/' /etc/ssh/sshd_config
-  - sed -i -e 's/^#Port 22/Port 23022/' /etc/ssh/sshd_config
   - systemctl reload ssh
   - sed -i 's/^s*REGDOMAIN=S*/REGDOMAIN=JP/' /etc/default/crda || true
   - localectl set-x11-keymap "us" pc105
