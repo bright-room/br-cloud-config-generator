@@ -1,8 +1,8 @@
 version: 2
-  ethernets:
-    eth0:
-      dhcp4: false
-      addresses: [ {{ internal_ip_address }} ]
+ethernets:
+  eth0:
+    dhcp4: false
+    addresses: [ {{ internal_ip_address }} ]
 wifis:
   renderer: networkd
   wlan0:
