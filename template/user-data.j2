@@ -19,7 +19,7 @@ apt:
 users:
   - name: root
     lock_passwd: false
-    hashed_passwd: {{ users.root.root_password }}
+    hashed_passwd: {{ users.root.password }}
   - name: {{ users.operation_user.user_name }}
     groups: users,adm,dialout,audio,netdev,video,plugdev,cdrom,games,input,gpio,spi,i2c,render,sudo
     shell: /bin/bash

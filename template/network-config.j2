@@ -2,16 +2,16 @@ version: 2
 ethernets:
   eth0:
     dhcp4: false
-    addresses: [ {{ internal_ip_address }} ]
+    addresses: [ {{ networks.internal.ip_address }} ]
 wifis:
   renderer: networkd
   wlan0:
     dhcp4: false
     optional: true
     access-points:
-      "{{ ssid }}":
+      "{{ networks.external.wifi.ssid }}":
         password: "{{ hashed_password }}"
-    addresses: [ {{ external_ip_address }} ]
-    gateway4: {{ external_gateway_ip }}
+    addresses: [ {{ networks.external.ip_address }} ]
+    gateway4: {{ networks.external.gateway_ip }}
     nameservers:
       addresses: [ 8.8.8.8, 8.8.4.4 ]
