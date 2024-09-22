@@ -19,13 +19,13 @@ apt:
 users:
   - name: root
     lock_passwd: false
-    hashed_passwd: {{ users.root.password }}
+    hashed_passwd: {{ root_password }}
   - name: {{ users.operation_user.user_name }}
     groups: users,adm,dialout,audio,netdev,video,plugdev,cdrom,games,input,gpio,spi,i2c,render,sudo
     shell: /bin/bash
     sudo: ALL=(ALL) NOPASSWD:ALL
     lock_passwd: false
-    passwd: {{ users.operation_user.password }}
+    passwd: {{ operation_user_password }}
     ssh_authorized_keys:
       - {{ users.operation_user.public_key }}
 
