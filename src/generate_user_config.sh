@@ -6,22 +6,10 @@ CREDENTIAL_FILE="/credentials/${SERVER_NAME}.yaml"
 TEMPLATE_FILE="/templates/user-data.j2"
 GENERATED_FILE="/generated/${SERVER_NAME}/user-data"
 
-# user data define
-root_password=$(openssl passwd -6 -salt=salt $(yq ".users.root.password" "${CREDENTIAL_FILE}"))
-operation_user_name=$(yq ".users.operation_user.user_name" "${CREDENTIAL_FILE}")
-operation_user_password=$(openssl passwd -6 -salt=salt $(yq ".users.operation_user.password" "${CREDENTIAL_FILE}"))
-operation_user_public_key=$(yq ".users.operation_user.public_key" "${CREDENTIAL_FILE}")
-
-generate_target="gateway"
-if [[ ${SERVER_NAME} =~ ^.*node.+$ ]];then
-  generate_target="node"
+if [[ ${SERVER_NAME} =~ ^.*node.+$ ]]; then
+  export GENERATE_TARGET="node"
+else
+  export GENERATE_TARGET="gateway"
 fi
 
-jinja2 ${TEMPLATE_FILE} \
-      -D "hostname=${SERVER_NAME}" \
-      -D "root_password=${root_password}" \
-      -D "operation_user_name=${operation_user_name}" \
-      -D "operation_user_password=${operation_user_password}" \
-      -D "operation_user_public_key=${operation_user_public_key}" \
-      -D "generate_target=${generate_target}" \
-      > ${GENERATED_FILE}
+jinja2 --format=yaml ${TEMPLATE_FILE} ${CREDENTIAL_FILE} > ${GENERATED_FILE}

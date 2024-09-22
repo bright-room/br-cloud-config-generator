@@ -1,5 +1,5 @@
 #cloud-config
-hostname: {{ hostname }}
+hostname: {{ environ('SERVER_NAME') }}
 manage_etc_hosts: false
 
 timezone: JST
@@ -13,23 +13,37 @@ packages:
 apt:
   conf: |
     Acquire {
-      Check-Date "false";
+      Check-Date 'false';
     };
 
 users:
   - name: root
     lock_passwd: false
-    hashed_passwd: {{ root_password }}
-  - name: {{ operation_user_name }}
+    hashed_passwd: {{ users.root.password }}
+  - name: {{ users.operation_user.user_name }}
     groups: users,adm,dialout,audio,netdev,video,plugdev,cdrom,games,input,gpio,spi,i2c,render,sudo
     shell: /bin/bash
     sudo: ALL=(ALL) NOPASSWD:ALL
     lock_passwd: false
-    passwd: {{ operation_user_password }}
+    passwd: {{ users.operation_user.password }}
     ssh_authorized_keys:
-      - {{ operation_user_public_key }}
+      - {{ users.operation_user.public_key }}
 
-{%- if generate_target == 'gateway' %}
+{%- if secrets %}
+
+write_files:
+  - path: /etc/profile.d/env.sh
+    permissions: '0644'
+    content: |
+      #!/bin/sh
+      {%- for secret in secrets %}
+      {%- if secret.key is defined and secret.key and secret.value is defined and secret.value %}
+      export {{ secret.key }}="{{ secret.value }}"
+      {%- endif %}
+      {%- endfor %}
+{%- endif %}
+
+{%- if environ('GENERATE_TARGET') == 'gateway' %}
 
 runcmd:
   - sed -i -e 's/^#PermitRootLogin prohibit-password/PermitRootLogin no/' /etc/ssh/sshd_config
